@@ -29,20 +29,31 @@
 	</head>
 
 	<body>
-		<div id="info">
-			<a href="http://threejs.org" target="_blank" rel="noopener">three.js</a> - FBXLoader<br />
-			Character and animation from <a href="https://www.mixamo.com/" target="_blank" rel="noopener">Mixamo</a>
-		</div>
+
+		<!-- Load TensorFlow.js -->
+    <script src="https://unpkg.com/@tensorflow/tfjs"></script>
+    <!-- Load Posenet -->
+    <script src="https://unpkg.com/@tensorflow-models/posenet"></script>
+
+		<!-- Load dat-gui -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.2/dat.gui.js"></script>
+
+		<!-- Load stat.js -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.js"></script>
 
 		<script src="build/three.js"></script>
 
-		<script src="js/libs/inflate.min.js"></script>
-		<script src="js/loaders/FBXLoader.js"></script>
+		<script src="three_js/js/libs/inflate.min.js"></script>
+		<script src="three_js/js/loaders/FBXLoader.js"></script>
 
-		<script src="js/controls/OrbitControls.js"></script>
+		<script src="three_js/js/controls/OrbitControls.js"></script>
 
-		<script src="js/Detector.js"></script>
-		<script src="js/libs/stats.min.js"></script>
+		<script src="three_js/js/Detector.js"></script>
+		<script src="three_js/js/libs/stats.min.js"></script>
+
+		<div id='main' style='display:none'>
+        <video id="video" ></video>
+        <canvas id="output" />
 
 		<script>
 			if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
@@ -110,7 +121,7 @@
 				//
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
-				renderer.setSize( window.innerWidth, window.innerHeight );
+				renderer.setSize( window.innerWidth/2, window.innerHeight/2 );
 				renderer.shadowMap.enabled = true;
 				container.appendChild( renderer.domElement );
 				window.addEventListener( 'resize', onWindowResize, false );
@@ -135,6 +146,6 @@
 				stats.update();
 			}
 		</script>
-
+		<script src="posenet/camera.js"></script>
 	</body>
 </html>
