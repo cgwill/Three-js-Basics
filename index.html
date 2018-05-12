@@ -85,9 +85,10 @@
 				grid.material.opacity = 0.2;
 				grid.material.transparent = true;
 				scene.add( grid );
-				// model
+				// model with ANIMATION
+				/*
 				var loader = new THREE.FBXLoader();
-				loader.load( 'models/basic_character.fbx', function ( object ) {
+				loader.load( 'models/Samba_Dancing.fbx', function ( object ) {
 					object.mixer = new THREE.AnimationMixer( object );
 					mixers.push( object.mixer );
 					var action = object.mixer.clipAction( object.animations[ 0 ] );
@@ -100,6 +101,13 @@
 					} );
 					scene.add( object );
 				} );
+				*/
+				// extra model
+				var loader_T_Pose = new THREE.FBXLoader();
+				loader_T_Pose.load( 'models/T_Pose.fbx', function ( object ) {
+					scene.add( object );
+				} );
+				//
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
