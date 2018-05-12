@@ -1,3 +1,8 @@
+var imageScaleFactor = 0.5;
+var outputStride = 16;
+var flipHorizontal = false;
+
+
 (function() {
   // The width and height of the captured photo. We will set the
   // width to the value defined here, but the height will be
@@ -21,7 +26,9 @@
 
   function startup() {
     video = document.getElementById('video');
-    canvas = document.getElementById('canvas');
+    canvas = document.getElementById('canvas_taken');
+    photo = document.getElementById('photo');
+    startbutton = document.getElementById('startbutton');
 
     navigator.getMedia = ( navigator.getUserMedia ||
                            navigator.webkitGetUserMedia ||
@@ -38,7 +45,7 @@
           video.mozSrcObject = stream;
         } else {
           var vendorURL = window.URL || window.webkitURL;
-          video.srcObject = stream;
+          video.src = vendorURL.createObjectURL(stream);
         }
         video.play();
       },
@@ -66,6 +73,53 @@
       }
     }, false);
 
+    startbutton.addEventListener('click', function(ev){
+      takepicture();
+      ev.preventDefault();
+    }, false);
+
+    clearphoto();
+  }
+
+  // Fill the photo with an indication that none has been
+  // captured.
+
+  function clearphoto() {
+    var context = canvas.getContext('2d');
+    context.fillStyle = "#AAA";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    var data = canvas.toDataURL('image/png');
+    photo.setAttribute('src', data);
+  }
+
+  // Capture a photo by fetching the current contents of the video
+  // and drawing it into a canvas, then converting that to a PNG
+  // format data URL. By drawing it on an offscreen canvas and then
+  // drawing that to the screen, we can change its size and/or apply
+  // other changes before drawing it.
+
+  function takepicture() {
+    var context = canvas.getContext('2d');
+    if (width && height) {
+      canvas.width = width;
+      canvas.height = height;
+      context.drawImage(video, 0, 0, width, height);
+
+      var data = canvas.toDataURL('image/png');
+      photo.setAttribute('src', data);
+      getPose(photo);
+    } else {
+      clearphoto();
+    }
+  }
+
+  function getPose(imageElement){
+    posenet.load().then(function(net){
+      return net.estimateSinglePose(imageElement, imageScaleFactor, flipHorizontal, outputStride)
+    }).then(function(pose){
+      console.log(pose);
+    })
   }
 
   // Set up our event listener to run the startup process

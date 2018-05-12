@@ -48,8 +48,10 @@
 		<div id='video_container'>
         <video id="video" width="400" height="300" autoplay></video>
         <canvas id="canvas" width="400" height="300"></canvas>
-				<canvas id="canvas_taken" width="400" height="300"></canvas>
-				<button onclick="logPose()">Log Pose</button>
+				<canvas id="canvas_taken" width="400" height="300">
+					<img id="photo" alt="The screen capture will appear in this box.">
+				</canvas>
+				<button id="startbutton">Log Pose</button>
 
 		</div>
 		<script src="viewport.js"></script>
